@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { StateCreator, create } from "zustand";
 import { persist } from "zustand/middleware";
 import { Bid, PlayerBids } from "./game";
 
@@ -43,7 +43,8 @@ interface RoundStore {
   setRoundButton: (index: number) => void;
 }
 
-const useButtonStore = create<ButtonStore>(
+
+const useButtonStore = create<ButtonStore>()(
   persist(
     (set) => ({
       button: 1,
@@ -57,7 +58,7 @@ const useButtonStore = create<ButtonStore>(
   )
 );
 
-const usePlayerStore = create<PlayerStore>(
+const usePlayerStore = create<PlayerStore>()(
   persist(
     (set) => ({
       players: [],
@@ -77,7 +78,7 @@ const usePlayerStore = create<PlayerStore>(
   )
 );
 
-const useBidsStore = create<BidsStore>(
+const useBidsStore = create<BidsStore>()(
   persist(
     (set, get) => ({
       playerBids: [],
@@ -104,7 +105,7 @@ const useBidsStore = create<BidsStore>(
   )
 );
 
-const useRoundStore = create<RoundStore>(
+const useRoundStore = create<RoundStore>()(
   persist(
     (set, get) => ({
       bids: [0, 0, 0, 0],
@@ -147,7 +148,7 @@ const useRoundStore = create<RoundStore>(
   )
 );
 
-const useGameStore = create<GameStore>(
+const useGameStore = create<GameStore>()(
   persist(
     (set) => ({
       gameOver: false,
