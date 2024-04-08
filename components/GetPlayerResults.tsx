@@ -21,8 +21,9 @@ export function GetPlayerResults() {
   const roundBids = useRoundStore((state) => state.bids);
   const t = useTranslations("GetPLayerBids");
   const [allPlayerHaveResults, setAllPlayerHaveResults] = useState(false);
-  const resetRound = useRoundStore((state) => state.endRound);
-  const [roundEnded, setRoundEnded] = useState(false);
+  const resetRound = useRoundStore((state) => state.restartRound);
+  const roundEnded = useRoundStore((state) => state.ended);
+  const endRound = useRoundStore((state) => state.endRound);
   const roundResults = useRoundStore((state) => state.results);
   const setResults = useRoundStore((state) => state.addResult);
   const logBid = useBidsStore((state) => state.logBid);
@@ -40,7 +41,7 @@ export function GetPlayerResults() {
   }, [roundResults]);
 
   const handleEndRound = () => {
-    setRoundEnded(true);
+    endRound();
     setRoundButton(buttonLocation);
   };
 

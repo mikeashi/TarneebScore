@@ -33,16 +33,17 @@ interface RoundStore {
   bids: number[];
   results: number[];
   started: boolean;
+  ended: boolean;
   roundButton: number;
   addBid: (bid: number, index: number) => void;
   addResult: (result: number, index: number) => void;
   startRound: () => void;
   endRound: () => void;
+  restartRound: () => void;
   getPlayerBid: (index: number) => string;
   moveRoundButton: () => void;
   setRoundButton: (index: number) => void;
 }
-
 
 const useButtonStore = create<ButtonStore>()(
   persist(
@@ -111,6 +112,7 @@ const useRoundStore = create<RoundStore>()(
       bids: [0, 0, 0, 0],
       results: [-1, -1, -1, -1],
       started: false,
+      ended: false,
       roundButton: 0,
       addBid: (bid, index) =>
         set((state) => {
@@ -125,11 +127,16 @@ const useRoundStore = create<RoundStore>()(
           return { results };
         }),
       startRound: () => set({ started: true }),
-      endRound: () =>
+      restartRound: () =>
         set({
           bids: [0, 0, 0, 0],
           results: [-1, -1, -1, -1],
           started: false,
+          ended: false,
+        }),
+      endRound: () =>
+        set({
+          ended: true,
         }),
       getPlayerBid: (index) => {
         const bid = get().bids[index];
