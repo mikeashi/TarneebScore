@@ -1,4 +1,5 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 import { Bid, PlayerBids } from "./game";
 
 const PLAYERS_NUMBER = 4;
@@ -23,7 +24,7 @@ interface ButtonStore {
   resetButton: () => void;
 }
 
-interface GameStore{
+interface GameStore {
   gameOver: boolean;
   setGameOver: (value: boolean) => void;
 }
@@ -42,91 +43,121 @@ interface RoundStore {
   setRoundButton: (index: number) => void;
 }
 
-const useButtonStore = create<ButtonStore>((set) => ({
-  button: 1,
-  moveButton: () =>
-    set((state) => ({ button: (state.button + 1) % PLAYERS_NUMBER })),
-  resetButton: () => set({ button: 1 }),
-}));
+const useButtonStore = create<ButtonStore>(
+  persist(
+    (set) => ({
+      button: 1,
+      moveButton: () =>
+        set((state) => ({ button: (state.button + 1) % PLAYERS_NUMBER })),
+      resetButton: () => set({ button: 1 }),
+    }),
+    {
+      name: "button-store",
+    }
+  )
+);
 
-const usePlayerStore = create<PlayerStore>((set) => ({
-  players: ["مايك", "دودي", "سوسو", "سامو"],
-  addPlayer: (player) =>
-    set((state) => ({ players: [...state.players, player] })),
-  updatePlayer: (player, index) =>
-    set((state) => {
-      const players = [...state.players];
-      players[index] = player;
-      return { players };
+const usePlayerStore = create<PlayerStore>(
+  persist(
+    (set) => ({
+      players: [],
+      addPlayer: (player) =>
+        set((state) => ({ players: [...state.players, player] })),
+      updatePlayer: (player, index) =>
+        set((state) => {
+          const players = [...state.players];
+          players[index] = player;
+          return { players };
+        }),
+      resetPlayers: () => set({ players: [] }),
     }),
-  resetPlayers: () => set({ players: [] }),
-}));
+    {
+      name: "player-store",
+    }
+  )
+);
 
-const useBidsStore = create<BidsStore>((set, get) => ({
-  playerBids: [
-    { bids: [
-        {
-          value: 41,
-          achieved: true
-        }
-    ]}
-  ],
-  logBid: (bid, index) =>
-    set((state) => {
-      const playerBids = [...state.playerBids];
-      if (!playerBids[index]) playerBids[index] = { bids: [] };
-      playerBids[index].bids.push(bid);
-      return { playerBids };
+const useBidsStore = create<BidsStore>(
+  persist(
+    (set, get) => ({
+      playerBids: [],
+      logBid: (bid, index) =>
+        set((state) => {
+          const playerBids = [...state.playerBids];
+          if (!playerBids[index]) playerBids[index] = { bids: [] };
+          playerBids[index].bids.push(bid);
+          return { playerBids };
+        }),
+      getPlayerScore: (index) => {
+        const bids = get().playerBids[index];
+        if (!bids) return 0;
+        return bids.bids.reduce(
+          (acc, bid) => acc + (bid.achieved ? bid.value : -bid.value),
+          0
+        );
+      },
+      resetBids: () => set({ playerBids: [] }),
     }),
-  getPlayerScore: (index) => {
-    const bids = get().playerBids[index];
-    if (!bids) return 0;
-    return bids.bids.reduce(
-      (acc, bid) => acc + (bid.achieved ? bid.value : -bid.value),
-      0
-    );
-  },
-  resetBids: () => set({ playerBids: [] }),
-}));
+    {
+      name: "bids-store",
+    }
+  )
+);
 
-const useRoundStore = create<RoundStore>((set, get) => ({
-  bids: [0, 0, 0, 0],
-  results: [-1, -1, -1, -1],
-  started: false,
-  roundButton: 0,
-  addBid: (bid, index) =>
-    set((state) => {
-      const bids = [...state.bids];
-      bids[index] = bid;
-      return { bids };
-    }),
-  addResult: (result, index) =>
-    set((state) => {
-      const results = [...state.results];
-      results[index] = result;
-      return { results };
-    }),
-  startRound: () => set({ started: true }),
-  endRound: () =>
-    set({
+const useRoundStore = create<RoundStore>(
+  persist(
+    (set, get) => ({
       bids: [0, 0, 0, 0],
       results: [-1, -1, -1, -1],
       started: false,
+      roundButton: 0,
+      addBid: (bid, index) =>
+        set((state) => {
+          const bids = [...state.bids];
+          bids[index] = bid;
+          return { bids };
+        }),
+      addResult: (result, index) =>
+        set((state) => {
+          const results = [...state.results];
+          results[index] = result;
+          return { results };
+        }),
+      startRound: () => set({ started: true }),
+      endRound: () =>
+        set({
+          bids: [0, 0, 0, 0],
+          results: [-1, -1, -1, -1],
+          started: false,
+        }),
+      getPlayerBid: (index) => {
+        const bid = get().bids[index];
+        if (bid === 0) return "-";
+        return bid.toString();
+      },
+      moveRoundButton: () =>
+        set((state) => ({
+          roundButton: (state.roundButton + 1) % PLAYERS_NUMBER,
+        })),
+      setRoundButton: (index) => set({ roundButton: index }),
     }),
-  getPlayerBid: (index) => {
-    const bid = get().bids[index];
-    if (bid === 0) return "-";
-    return bid.toString();
-  },
-  moveRoundButton: () =>
-    set((state) => ({ roundButton: (state.roundButton + 1) % PLAYERS_NUMBER })),
-  setRoundButton: (index) => set({ roundButton: index }),
-}));
+    {
+      name: "round-store",
+    }
+  )
+);
 
-const useGameStore = create<GameStore>((set) => ({
-  gameOver: false,
-  setGameOver: (value) => set({ gameOver: value }),
-}));
+const useGameStore = create<GameStore>(
+  persist(
+    (set) => ({
+      gameOver: false,
+      setGameOver: (value) => set({ gameOver: value }),
+    }),
+    {
+      name: "game-store",
+    }
+  )
+);
 
 export {
   usePlayerStore,
