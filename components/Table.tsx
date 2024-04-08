@@ -14,10 +14,12 @@ import { TableButton } from "./TableButton";
 import { GetPLayerBids } from "./GetPlayerBids";
 import { GetPlayerResults } from "./GetPlayerResults";
 import { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 import { Restart } from "./Restart";
 import { NewGame } from "./NewGame";
-
+import { Button } from "./ui/button";
+import { useRouter } from "next/router";
+import Link from "next/link";
 
 export function Table() {
   const players = usePlayerStore((state) => state.players);
@@ -32,6 +34,7 @@ export function Table() {
   const setGameOver = useGameStore((state) => state.setGameOver);
   const [winner, setWinner] = useState("");
   const t = useTranslations("Index");
+  const locale = useLocale();
 
   const playerStyles = [
     "bottom-0 left-1/2 transform -translate-x-1/2 translate-y-full",
@@ -48,14 +51,13 @@ export function Table() {
 
   useEffect(() => {
     for (let i = 0; i < PLAYERS_NUMBER; i++) {
-      if (getPlayerScore(i) >= 41){
+      if (getPlayerScore(i) >= 41) {
         setGameOver(true);
         setWinner(players[i]);
         return;
       }
     }
   }, [playerBids]);
-
 
   return (
     <div className="w-full flex flex-col items-center gap-8">
@@ -106,6 +108,18 @@ export function Table() {
       <div className="flex gap-8 w-full my-4">
         <Restart />
         <NewGame />
+      </div>
+      <Separator />
+      <div className="flex w-full" dir="ltr">
+        {locale === "ar" ? (
+          <Link href="/en">
+            <Button variant="link">English</Button>
+          </Link>
+        ) : (
+          <Link href="/ar">
+            <Button variant="link">عربي</Button>
+          </Link>
+        )}
       </div>
     </div>
   );
