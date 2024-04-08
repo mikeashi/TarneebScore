@@ -1,0 +1,37 @@
+{
+    "Index": {
+        "title": "Hello world!",
+        "gameOver": "Game Over",
+        "winnerIs": "Winner is",
+        "restart": "Restart",
+        "newGame": "New Game",
+        "areYouSureYouWantToRestartTheGame": "Are you sure you want to restart the game?",
+        "ifYouRestartTheGameAllTheScoresWillBeLost": "If you restart the game all the scores will be lost",
+        "areYouSureYouWantToStartANewGame": "Are you sure you want to start a new game?",
+        "ifYouStartANewGameAllTheScoresWillBeLost": "If you start a new game all the scores and player names will be lost",
+        "cancel": "Cancel",
+        "continue": "Continue"
+    },
+    "GetPlayerNames":{
+        "add": "Add Player",
+        "enterPlayerNamesToStart": "Enter player names to start",
+        "enterYourName": "Enter your name",
+        "enterTheNameOfThePlayerToYourRight": "Enter the name of the player to your right",
+        "enterTheNameOfThePlayerToYourLeft": "Enter the name of the player to your left",
+        "enterTheNameOfThePlayerOppositeYou": "Enter the name of the player opposite you",
+        "pleaseEnterAName": "Please enter a name",
+        "pleaseEnterANameDescription": "you have to enter a name to continue",
+        "name": "Name"
+    },
+    "GetPLayerBids": {
+        "enterBidFor": "Enter bid for",
+        "startRound": "Start Round",
+        "cannotStartRound": "Cannot start round",
+        "cannotStartRoundDescription": "Player bids must be greater than 11",
+        "endRound": "End Round",
+        "enterResultFor": "Enter result for",
+        "achieved": "Achieved",
+        "failed": "Failed",
+        "confirmResults": "Confirm Results"
+    }
+}

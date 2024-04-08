@@ -1,0 +1,37 @@
+{
+    "Index": {
+        "title": "مرحبا بالعالم",
+        "gameOver": "انتهت اللعبة",
+        "winnerIs": "الفائز هو",
+        "restart":"إعادة اللعبة",
+        "newGame":"لعبة جديدة",
+        "areYouSureYouWantToRestartTheGame": "هل أنت متأكد أنك تريد إعادة اللعبة؟",
+        "ifYouRestartTheGameAllTheScoresWillBeLost": "إذا قمت بإعادة اللعبة، سيتم فقدان جميع النقاط",
+        "areYouSureYouWantToStartANewGame": "هل أنت متأكد أنك تريد بدء لعبة جديدة؟",
+        "ifYouStartANewGameAllTheScoresWillBeLost": "إذا بدأت لعبة جديدة، سيتم فقدان جميع النقاط و اسماء اللاعبين",
+        "cancel": "إلغاء",
+        "continue": "متابعة"
+    },
+    "GetPlayerNames":{
+        "add": "إضافة لاعب",
+        "enterPlayerNamesToStart": "أدخل أسماء اللاعبين لبدء اللعبة",
+        "enterYourName": "أدخل اسمك",
+        "enterTheNameOfThePlayerToYourRight": "أدخل اسم اللاعب على يمينك",
+        "enterTheNameOfThePlayerToYourLeft": "أدخل اسم اللاعب على يسارك",
+        "enterTheNameOfThePlayerOppositeYou": "أدخل اسم اللاعب المقابل لك",
+        "pleaseEnterAName": "الرجاء إدخال اسم",
+        "pleaseEnterANameDescription": "يجب ادخال اسم لاعب",
+        "name": "الاسم"
+    },
+    "GetPLayerBids": {
+        "enterBidFor": "ادخل الطلب لـ",
+        "startRound": "ابدأ الجولة",
+        "cannotStartRound": "لا يمكن بدء الجولة",
+        "cannotStartRoundDescription": "مجموع الطلبات يجب أن يكون أكبر من 11",
+        "endRound": "انهاء الجولة",
+        "enterResultFor": "ادخل النتيجة لـ",
+        "achieved": "نجح",
+        "failed": "فشل",
+        "confirmResults": "تأكيد النتائج"
+    }
+}
